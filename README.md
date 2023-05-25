@@ -78,6 +78,11 @@ In progress at the moment
 Link to frontend: https://github.com/Xavtso/mono-lite-front
 Or current deployed version: https://proud-river-08d562003.2.azurestaticapps.net/
 
+# Lab 4
+1. Gerii Oleg
+2. <a href="https://github.com/gr-oleg/LvivTrans.git" target="_blank">My project</a>
+3. <a href="https://github.com/gr-oleg/mono_lite_backend/pull/1" target="_blank">Pull request</a>
+
 Lab4
 1. Zhovanuk Oleksandr
 2. <a href="https://github.com/fdsssawe/inkfinder" target="_blank">My project</a>
