@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Currency } from './currency.model';
-import { currencyDto } from './dto/currency.dto';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
 import { UserCurrency } from './userCurrency.model';
 import { Card } from '../cards/card.model';
-import { Transaction } from '../transactions/transactions.model';
+import axios from 'axios';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class CurrencyService {
@@ -13,15 +13,32 @@ export class CurrencyService {
     @InjectModel(Currency) private currencyModel: typeof Currency,
     @InjectModel(UserCurrency) private userCurrencyModel: typeof UserCurrency,
     @InjectModel(Card) private cardModel: typeof Card,
-    @InjectModel(Transaction) private transactionModel: typeof Transaction,
   ) {}
 
-  async updateCurrency(dto: currencyDto) {
-    const currency = await this.currencyModel.findByPk(dto.currency_id);
+  @Cron(CronExpression.EVERY_HOUR)
+  async getCurrencyInfo() {
+
+    let currencyData = [];
+
+    await axios
+      .get('https://api.monobank.ua/bank/currency')
+      .then((response) => (currencyData = response.data.splice(0, 2)))
+      .catch((error) => console.log(error));
+
+    await this.updateCurrenciesInfo(currencyData[0]);
+    await this.updateCurrenciesInfo(currencyData[1]);
+
+    return currencyData;
+  }
+
+  async updateCurrenciesInfo(currencyData: any) {
+    const currency = await this.currencyModel.findByPk(
+      currencyData.currencyCodeA,
+    );
     const updatedCurrency = await currency.update({
-      date: dto.date,
-      rateBuy: dto.rateBuy,
-      rateSell: dto.rateSell,
+      date: currencyData.date,
+      rateBuy: currencyData.rateBuy,
+      rateSell: currencyData.rateSell,
     });
 
     return updatedCurrency;
