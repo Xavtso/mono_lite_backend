@@ -13,12 +13,10 @@ import { Transaction } from 'src/transactions/transactions.model';
   providers: [PiggybankService],
   controllers: [PiggybankController],
   imports: [
-    SequelizeModule.forFeature([PiggyBank, User,Card,Transaction]),
+    SequelizeModule.forFeature([PiggyBank, User, Card, Transaction]),
     forwardRef(() => TransactionsModule),
-    forwardRef(() => CardsModule)
+    forwardRef(() => CardsModule),
   ],
-  exports: [
-    PiggybankService
-  ]
+  exports: [PiggybankService],
 })
 export class PiggybankModule {}

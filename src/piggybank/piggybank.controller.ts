@@ -1,7 +1,13 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PiggybankService } from './piggybank.service';
 import { createPigVaultDto } from './dto/create-Pig-Vault.dto';
-import { ApiTags, ApiResponse, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiResponse,
+  ApiOperation,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
 import { PiggyBank } from './piggybank.model';
 
 @ApiTags('Piggy Bank')
@@ -11,7 +17,11 @@ export class PiggybankController {
 
   @ApiOperation({ summary: 'Get User Vaults' })
   @ApiParam({ name: 'id', description: 'User ID' })
-  @ApiResponse({ status: 200, description: 'Returns user vaults' ,type:[PiggyBank] })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns user vaults',
+    type: [PiggyBank],
+  })
   @Get('/:id')
   showVaults(@Param('id') id: number) {
     return this.pigService.showUserVaults(id);

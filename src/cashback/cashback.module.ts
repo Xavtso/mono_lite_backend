@@ -14,8 +14,8 @@ import { CardsModule } from 'src/cards/cards.module';
   imports: [
     forwardRef(() => TransactionsModule),
     forwardRef(() => CardsModule),
-    SequelizeModule.forFeature([Card,CashBack,Transaction]),
+    SequelizeModule.forFeature([Card, CashBack, Transaction]),
   ],
-  exports: [CashbackService]
+  exports: [CashbackService],
 })
 export class CashbackModule {}

@@ -1,4 +1,8 @@
-import { ConflictException,Injectable ,BadRequestException} from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CashBack } from './cashback.model';
 import { TransactionsService } from 'src/transactions/transactions.service';
@@ -15,8 +19,6 @@ export class CashbackService {
     private transactionService: TransactionsService,
   ) {}
 
- 
-
   async getCashBackToBalance(dto: CashBackDto) {
     const amount = dto.amount;
     const currCard = await this.transactionService.getCurrentCard(dto.user_id);
@@ -28,7 +30,6 @@ export class CashbackService {
       currStorage.cashback_balance >= 100 &&
       currStorage.cashback_balance >= amount
     ) {
-      
       await this.cashbackModel.update(
         { cashback_balance: currStorage.cashback_balance - amount },
         { where: { cashback_id: currStorage.cashback_id } },
@@ -56,7 +57,7 @@ export class CashbackService {
     }
   }
 
-  async showBalance(id:number) {
+  async showBalance(id: number) {
     const currCard = await this.transactionService.getCurrentCard(id);
     const [currCashBackVault, created] = await this.cashbackModel.findOrCreate({
       where: { card_id: currCard.card_id },

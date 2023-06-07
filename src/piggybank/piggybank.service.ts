@@ -198,7 +198,6 @@ export class PiggybankService {
     return updatedVault;
   }
 
- 
   async changeTargenSum(dto: createPigVaultDto) {
     const targetVault = await this.vaultModel.findByPk(dto.vault_id);
     const isOwner = dto.user_id === targetVault.user_id;

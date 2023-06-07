@@ -1,4 +1,4 @@
-import {forwardRef, Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Card } from 'src/cards/card.model';
 import { User } from './user.model';
@@ -11,11 +11,9 @@ import { PiggyBank } from 'src/piggybank/piggybank.model';
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-    SequelizeModule.forFeature([User, Card,PiggyBank]),
+    SequelizeModule.forFeature([User, Card, PiggyBank]),
     forwardRef(() => AuthModule),
   ],
-  exports: [
-    UsersService,
-  ]
+  exports: [UsersService],
 })
 export class UsersModule {}

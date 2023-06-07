@@ -10,8 +10,6 @@ import { createTransactionDto } from './dto/create-transaction.dto';
 import { TransactionsService } from './transactions.service';
 import { Transaction } from './transactions.model';
 
-
-
 @ApiTags('Transactions')
 @Controller('transactions')
 export class TransactionsController {

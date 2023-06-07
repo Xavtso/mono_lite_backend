@@ -10,7 +10,9 @@ import { Transaction } from 'src/transactions/transactions.model';
 @Module({
   controllers: [CurrencyController],
   providers: [CurrencyService],
-  imports: [SequelizeModule.forFeature([Currency,UserCurrency,Card,Transaction])],
+  imports: [
+    SequelizeModule.forFeature([Currency, UserCurrency, Card, Transaction]),
+  ],
   exports: [CurrencyService],
 })
 export class CurrencyModule {}

@@ -1,15 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Model,
-  Column,
-  DataType,
-  Table,
-} from 'sequelize-typescript';
+import { Model, Column, DataType, Table } from 'sequelize-typescript';
 
-
-interface CashBackCreateAttr{
-    card_id: number;
-    cashback_balance: number;
+interface CashBackCreateAttr {
+  card_id: number;
+  cashback_balance: number;
 }
 
 @Table({ tableName: 'CashBack' })

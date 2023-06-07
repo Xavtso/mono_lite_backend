@@ -1,27 +1,13 @@
 import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-
-// import { currencyDto } from './dto/currency.dto';
 import { CurrencyService } from './currency.service';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
-// import { Currency } from './currency.model';
 
 @ApiTags('Currency')
 @Controller('currency')
 export class CurrencyController {
   constructor(private currencyService: CurrencyService) {}
 
-  // @ApiBody({ type: [Currency] })
-  // @ApiResponse({ status: 200, description: 'Successfully updated currencies info' })
-  // @Post('')
-  // async updateCurrencyInfo(@Body() dto: currencyDto) {
-  //   return await this.currencyService.updateCurrency(dto);
-  // }
-
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'Successfully retrieved currency information',
-  // })
   @Get('/info')
   async sendInfo() {
     return await this.currencyService.sendCurrencyInfo();

@@ -1,4 +1,4 @@
-import { Table, Column, Model} from 'sequelize-typescript';
+import { Table, Column, Model } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { DataTypes } from 'sequelize';
 

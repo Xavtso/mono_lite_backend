@@ -9,9 +9,7 @@ import { Transaction } from 'src/transactions/transactions.model';
 @Module({
   providers: [DepositsService],
   controllers: [DepositsController],
-  imports: [
-    SequelizeModule.forFeature([Deposit,Card,Transaction]),
-  ],
+  imports: [SequelizeModule.forFeature([Deposit, Card, Transaction])],
   exports: [DepositsService],
 })
 export class DepositsModule {}

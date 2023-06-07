@@ -13,8 +13,6 @@ import { CashBack } from 'src/cashback/cashback.model';
 
 @Injectable()
 export class TransactionsService {
-
-
   constructor(
     @InjectModel(Card) private cardRepository: typeof Card,
     @InjectModel(Transaction) private transactionModel: typeof Transaction,

@@ -8,17 +8,14 @@ import { CardsModule } from 'src/cards/cards.module';
 import { TransactionsModule } from 'src/transactions/transactions.module';
 import { Transaction } from 'src/transactions/transactions.model';
 
-
 @Module({
   providers: [LoansService],
   controllers: [LoansController],
   imports: [
     forwardRef(() => CardsModule),
     forwardRef(() => TransactionsModule),
-    SequelizeModule.forFeature([Loan,Card,Transaction]),
+    SequelizeModule.forFeature([Loan, Card, Transaction]),
   ],
-  exports: [
-    LoansService
-  ]
+  exports: [LoansService],
 })
 export class LoansModule {}

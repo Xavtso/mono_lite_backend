@@ -1,14 +1,7 @@
-import {
-  Model,
-  Column,
-  ForeignKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, Column, ForeignKey, Table } from 'sequelize-typescript';
 import { Card } from '../cards/card.model';
 import { DataTypes } from 'sequelize';
 import { ApiProperty } from '@nestjs/swagger';
-
-
 
 interface TransactionCreateAttrs {
   sender_card_id: number;
@@ -32,7 +25,6 @@ export class Transaction extends Model<Transaction, TransactionCreateAttrs> {
   })
   transaction_id: number;
 
-  // @ForeignKey(() => Card)
   @ApiProperty({ example: 1, description: 'Sender Card ID' })
   @Column({
     type: DataTypes.INTEGER,

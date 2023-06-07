@@ -1,11 +1,15 @@
-import { Injectable,HttpException,HttpStatus, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { createUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs';
 import { User } from 'src/users/user.model';
 import { CardsService } from 'src/cards/cards.service';
-
 
 @Injectable()
 export class AuthService {
@@ -14,8 +18,7 @@ export class AuthService {
     private jwtService: JwtService,
     private cardService: CardsService,
   ) {}
-    
- 
+
   async login(userDto: createUserDto) {
     const user = await this.validateUser(userDto);
     const token = this.generateToken(user);
@@ -47,7 +50,7 @@ export class AuthService {
       email: user.email,
       first_name: user.first_name,
       second_name: user.second_name,
-      imageURL:user.imageURL
+      imageURL: user.imageURL,
     };
     return {
       token: this.jwtService.sign(payload),
@@ -73,9 +76,8 @@ export class AuthService {
 
     if (!passwordEquals) {
       throw new UnauthorizedException(
-        'Йой.. А голову ти дома не забув(ла) -- Пароль не вірний:('
+        'Йой.. А голову ти дома не забув(ла) -- Пароль не вірний:(',
       );
     }
   }
-
 }

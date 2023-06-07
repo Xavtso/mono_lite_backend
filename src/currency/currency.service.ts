@@ -17,7 +17,6 @@ export class CurrencyService {
 
   @Cron(CronExpression.EVERY_HOUR)
   async getCurrencyInfo() {
-
     let currencyData = [];
 
     await axios
