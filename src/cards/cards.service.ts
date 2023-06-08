@@ -12,7 +12,6 @@ export class CardsService {
   ) {}
 
   async getCardById(id: number) {
-    console.log(id);
     const card = await this.cardModel.findByPk(id);
     return card;
   }

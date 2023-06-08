@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Res, Sse } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -10,9 +10,12 @@ import { createTransactionDto } from './dto/create-transaction.dto';
 import { TransactionsService } from './transactions.service';
 import { Transaction } from './transactions.model';
 
+
 @ApiTags('Transactions')
 @Controller('transactions')
 export class TransactionsController {
+
+
   constructor(private transactionService: TransactionsService) {}
 
   @ApiOperation({ summary: 'Create a new transaction' })
@@ -23,30 +26,12 @@ export class TransactionsController {
   })
   @Post('/new')
   createTransaction(@Body() dto: createTransactionDto) {
-    return this.transactionService.createTransaction(dto);
+    const createdTransaction = this.transactionService.whichTypeOfTransaction(dto);
+    return createdTransaction;
   }
 
-  @ApiOperation({ summary: 'Simulate a deposit transaction' })
-  @ApiBody({ type: createTransactionDto })
-  @ApiResponse({
-    status: 200,
-    description: 'The deposit transaction simulation was successful.',
-  })
-  @Post('/simulate/deposit')
-  simulateDeposit(@Body() dto: createTransactionDto) {
-    return this.transactionService.simulateDeposit(dto);
-  }
 
-  @ApiOperation({ summary: 'Simulate a withdrawal transaction' })
-  @ApiBody({ type: createTransactionDto })
-  @ApiResponse({
-    status: 200,
-    description: 'The withdrawal transaction simulation was successful.',
-  })
-  @Post('/simulate/withdrawal')
-  simulateWithdrawal(@Body() dto: createTransactionDto) {
-    return this.transactionService.simulateWithdrawal(dto);
-  }
+
 
   @ApiOperation({ summary: 'Get user transactions by ID' })
   @ApiParam({

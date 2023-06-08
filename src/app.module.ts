@@ -24,6 +24,7 @@ import { CurrencyModule } from './currency/currency.module';
 import { Currency } from './currency/currency.model';
 import { UserCurrency } from './currency/userCurrency.model';
 
+
 @Module({
   controllers: [AppController],
   providers: [AppService],

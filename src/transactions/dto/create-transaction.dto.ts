@@ -18,4 +18,9 @@ export class createTransactionDto {
     description: 'Receiver card number',
   })
   readonly receiver_card_number: string;
+
+
+readonly operation: string
+
 }
+

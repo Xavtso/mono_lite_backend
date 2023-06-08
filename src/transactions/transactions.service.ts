@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Transaction } from './transactions.model';
@@ -20,7 +21,21 @@ export class TransactionsService {
     private cardService: CardsService,
   ) {}
 
-  async createTransaction(dto: createTransactionDto) {
+  async whichTypeOfTransaction(dto: createTransactionDto) {
+    const operation = dto.operation;
+    if (operation === 'transfer') {
+      return await this.transferMoney(dto);
+    }
+    if (operation === 'deposit') {
+      return await this.simulateDeposit(dto);
+    }
+    if (operation === 'expense') {
+      return await this.simulateWithdrawal(dto);
+    }
+    throw new BadRequestException('Not implemented operation');
+  }
+
+  async transferMoney(dto: createTransactionDto) {
     const senderCard = await this.getCurrentCard(dto.user_id);
     const receiverCard = await this.getReceiverCard(dto);
 
@@ -110,7 +125,6 @@ export class TransactionsService {
   }
 
   async getUsersTransactions(id: number) {
-    console.log(id);
     const userCard = await this.getCurrentCard(id);
     const transactions = await this.transactionModel.findAll({
       where: {
