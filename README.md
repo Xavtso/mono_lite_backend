@@ -1,11 +1,15 @@
+## Main technology
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
 
-## Installation
 
+## How To Launch
+
+### 1. Install dependencies
 ```bash
 $ npm install
 ```
 
-## Running the app
+### 2. Run the app
 
 ```bash
 # development
@@ -18,22 +22,17 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Test (not nessecary)
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-Decomposition in progress..😅
+## Decomposition 
 
-## Deploy Backend
+1. Deployment
 
 ✅ Configure server settings
 ✅ Add web.config
@@ -41,39 +40,63 @@ Decomposition in progress..😅
 ✅ Configure startup command on azure
 ✅ Deploy
 
-## Database
+2. Database
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 ✅ Create AZURE SQL DB
-✅ Configure Sequelize ORM
+✅ Configure with ![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)
 ✅ Connect to database
 
-## Auth
-✅ Create users model,service,controller,module
-✅ Install and configure with users JWTmodule and service
-✅ Configure register methods
+3. Auth
+✅ Create ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) services
 
-## Debit Cards
+✅ Configure sign up/in methods
+
+4. Debit Cards
 
 ✅ Create Cards model with all includes
 ✅ Create dependencies with user
 ✅ Create card for each new user
 
-## Transactions
+5. Transactions
 
 ✅ Create Transactions model with all includes
 ✅ Create dependencies with cards 
 ✅ Create SQL transactions between users
 ✅ Create custom transactions (like in the shop or make deposit)
 
-## CashBack
+6. CashBack
 
 ✅ Create Cashback model with all includes
 ✅ Create dependecies with transaction
 ✅ Calculate amount in dependece of transaction amount
 ✅ Update balance
 
-#PiggyBank
-In progress at the moment
+7. Pig Jar
+✅Create Model 
+✅ Create dependencies with Users
+✅ Configure operation logic
 
-Link to frontend: https://github.com/Xavtso/mono-lite-front
-Or current deployed version: https://proud-river-08d562003.2.azurestaticapps.net/
+8. Loans
+✅Create Model 
+✅Configure operations
+✅Add Schedule functions
+
+9. Deposits
+✅Create Model 
+✅Configure operations
+✅Add Schedule functions
+
+10. Currency
+✅Create Model  
+✅Create users currency balancies
+✅Connect To open API (Monobank)
+✅Get data and put in model
+✅Configure operations logic
+
+11. Testing
+✅ Specify tests for services on ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+
+Link to client: https://github.com/Xavtso/mono-lite-front
+ 

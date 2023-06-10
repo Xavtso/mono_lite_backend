@@ -23,7 +23,6 @@ export class CurrencyService {
       .get('https://api.monobank.ua/bank/currency')
       .then((response) => (currencyData = response.data.splice(0, 2)))
       .catch((error) => console.log(error));
-
     await this.updateCurrenciesInfo(currencyData[0]);
     await this.updateCurrenciesInfo(currencyData[1]);
 
