@@ -33,8 +33,9 @@ export class LoansService {
     interestRate: number,
     term: number,
   ): number {
-    const monthlyInterestRate = interestRate / 12;
-    const payment = amount * monthlyInterestRate * (term + 1);
+    const monthlyInterestRate = interestRate / 12 / 100;
+    const denominator = Math.pow(1 + monthlyInterestRate, -term);
+    const payment = (amount * monthlyInterestRate) / (1 - denominator);
     return Math.ceil(payment);
   }
 
