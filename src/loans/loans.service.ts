@@ -83,7 +83,7 @@ export class LoansService {
         { where: { card_id: currCard.card_id } },
       );
       await this.loanModel.update(
-        { amount_to_pay: currCard.card_balance - dto.amount },
+        { amount_to_pay: currVault.amount_to_pay - dto.amount },
         { where: { id: currVault.id } },
       );
       this.checkIsRepaid(currVault);
