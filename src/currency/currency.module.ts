@@ -6,10 +6,11 @@ import { Currency } from './currency.model';
 import { UserCurrency } from './userCurrency.model';
 import { Card } from 'src/cards/card.model';
 import { Transaction } from 'src/transactions/transactions.model';
+import { CurrencyUtils } from './currency.utils';
 
 @Module({
   controllers: [CurrencyController],
-  providers: [CurrencyService],
+  providers: [CurrencyService,CurrencyUtils],
   imports: [
     SequelizeModule.forFeature([Currency, UserCurrency, Card, Transaction]),
   ],

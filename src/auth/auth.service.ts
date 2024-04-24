@@ -25,8 +25,9 @@ export class AuthService {
     return token;
   }
   async signUp(userDto: createUserDto) {
+    console.log(userDto);
     const candidate = await this.userService.getUserbyEmail(userDto.email);
-
+console.log(candidate);
     if (candidate) {
       throw new HttpException(
         'Зайнято! -- Користувач з таким емейлом уже існує(',
@@ -39,6 +40,7 @@ export class AuthService {
       ...userDto,
       password: hashPassword,
     });
+    console.log(user);
     await this.cardService.createCard(user.user_id);
     const token = this.generateToken(user);
     return token;

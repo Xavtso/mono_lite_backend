@@ -34,36 +34,12 @@ export class PiggybankController {
     return this.pigService.getAllVaults();
   }
 
-  @ApiOperation({ summary: 'Create Vault' })
-  @ApiBody({ type: createPigVaultDto })
-  @ApiResponse({ status: 201, description: 'Vault created successfully' })
-  @Post('/new')
-  createVault(@Body() dto: createPigVaultDto) {
-    return this.pigService.createVault(dto);
-  }
-
-  @ApiOperation({ summary: 'Add Contributor' })
-  @ApiBody({ type: createPigVaultDto })
-  @ApiResponse({ status: 200, description: 'Contributor added successfully' })
-  @Post('/add')
-  addContributor(@Body() dto: createPigVaultDto) {
-    return this.pigService.addContributor(dto);
-  }
-
-  @ApiOperation({ summary: 'Remove Contributor' })
-  @ApiBody({ type: createPigVaultDto })
-  @ApiResponse({ status: 200, description: 'Contributor removed successfully' })
-  @Post('/remove')
-  removeContributor(@Body() dto: createPigVaultDto) {
-    return this.pigService.removeContributor(dto);
-  }
-
   @ApiOperation({ summary: 'Break Vault' })
   @ApiBody({ type: createPigVaultDto })
   @ApiResponse({ status: 200, description: 'Vault broken successfully' })
   @Post('/break')
   breakVault(@Body() dto: createPigVaultDto) {
-    return this.pigService.breakVault(dto);
+    return this.pigService.breakJar(dto);
   }
 
   @ApiOperation({ summary: 'Deposit to Vault' })
@@ -71,7 +47,7 @@ export class PiggybankController {
   @ApiResponse({ status: 200, description: 'Amount deposited successfully' })
   @Post('/deposit')
   depositToVault(@Body() dto: createPigVaultDto) {
-    return this.pigService.depositToVault(dto);
+    return this.pigService.depositToJar(dto);
   }
 
   @ApiOperation({ summary: 'Withdraw from Vault' })
@@ -79,23 +55,14 @@ export class PiggybankController {
   @ApiResponse({ status: 200, description: 'Amount withdrawn successfully' })
   @Post('/withdraw')
   withdrawFromVault(@Body() dto: createPigVaultDto) {
-    return this.pigService.withdrawFromVault(dto);
+    return this.pigService.withdrawFromJar(dto);
   }
 
-  @ApiOperation({ summary: 'Change Vault Title' })
-  @ApiBody({ type: createPigVaultDto })
-  @ApiResponse({ status: 200, description: 'Vault title changed successfully' })
-  @Post('/title')
-  changeTitle(@Body() dto: createPigVaultDto) {
-    return this.pigService.changeVaultTitle(dto);
-  }
-
-  @ApiOperation({ summary: 'Change Vault Target Sum' })
+  @ApiOperation({ summary: 'Change Vault Credenials' })
   @ApiBody({ type: createPigVaultDto })
   @ApiResponse({ status: 200, description: 'Vault sum changed successfully' })
-  @Post('/title')
-  @Post('/sum')
+  @Post('/credentials')
   changeTargetSum(@Body() dto: createPigVaultDto) {
-    return this.pigService.changeTargenSum(dto);
+    return this.pigService.changeJarCredentials(dto);
   }
 }

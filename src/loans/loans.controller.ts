@@ -24,7 +24,7 @@ export class LoansController {
   })
   @Get('/:id')
   showLoan(@Param('id') id: number) {
-    return this.loansServices.showLoanEntity(id);
+    return this.loansServices.showLoanEntities(id);
   }
 
   @ApiOperation({ summary: 'Create a new Loan' })
@@ -44,7 +44,7 @@ export class LoansController {
   @ApiResponse({ status: 200, description: 'Loan payment successful' })
   @Post('/pay/part')
   payPartOfLoan(@Body() dto: createLoanDto) {
-    return this.loansServices.payPartOfLoan(dto);
+    return this.loansServices.payPartLoan(dto);
   }
 
   @ApiOperation({ summary: 'Pay full Loan amount' })

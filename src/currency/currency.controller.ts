@@ -2,11 +2,15 @@ import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CurrencyService } from './currency.service';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
+import { CurrencyUtils } from './currency.utils';
 
 @ApiTags('Currency')
 @Controller('currency')
 export class CurrencyController {
-  constructor(private currencyService: CurrencyService) {}
+  constructor(
+    private currencyService: CurrencyService,
+    private utils: CurrencyUtils,
+  ) {}
 
   @Get('/info')
   async sendInfo() {
@@ -19,7 +23,7 @@ export class CurrencyController {
   })
   @Get('/:id')
   async getUserCurrencyEntity(@Param('id') id: number) {
-    return await this.currencyService.getUserCurrencyEntity(id);
+    return await this.utils.getUserEntity(id);
   }
 
   @ApiBody({ type: updateCurrencyBalanceDto })

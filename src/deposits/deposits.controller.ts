@@ -56,10 +56,7 @@ export class DepositsController {
     description: 'Returns all deposits.',
     type: [Deposit],
   })
-  @Get()
-  async showAll() {
-    return await this.depositsService.showAllVaults();
-  }
+ 
 
   @ApiOperation({ summary: 'Destroy a deposit' })
   @ApiBody({ type: createDepositDto })
