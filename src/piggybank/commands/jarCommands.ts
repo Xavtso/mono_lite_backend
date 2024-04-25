@@ -3,7 +3,7 @@ import { createPigVaultDto } from '../dto/create-Pig-Vault.dto';
 import { TransactionRepository } from 'src/transactions/transactionRepository';
 import { BadRequestException } from '@nestjs/common';
 import { JarUtils } from '../utils';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../../cards/card.utils';
 
 interface Command {
   execute(): Promise<string>;

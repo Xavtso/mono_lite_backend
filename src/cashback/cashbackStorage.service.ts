@@ -1,14 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { CashBack } from './cashback.model';
-import { TransactionsService } from 'src/transactions/transactions.service';
-import { CardsService } from 'src/cards/cards.service';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../cards/card.utils';
+import { CashBackUtils } from './utils';
 
 @Injectable()
 export class CashbackStorage {
   constructor(
-    @InjectModel(CashBack) private cashbackModel: typeof CashBack,
+    private cashbackUtils: CashBackUtils,
     private cardUtils: CardUtils,
   ) {}
 
@@ -21,10 +18,8 @@ export class CashbackStorage {
 
   async getBalance(id: number): Promise<number> {
     const { card_id } = await this.cardUtils.getUserCard(id);
-    const [currStorage, created] = await this.cashbackModel.findOrCreate({
-      where: { card_id: card_id },
-      defaults: { cashback_balance: 0 },
-    });
+    const currStorage = await this.cashbackUtils.getUserCashBack(card_id);
+
     return currStorage ? currStorage.cashback_balance : 0;
   }
 }

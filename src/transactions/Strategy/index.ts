@@ -1,9 +1,8 @@
 import { Injectable, ConflictException } from '@nestjs/common';
-import { Card } from 'src/cards/card.model';
 import { createTransactionDto } from '../dto/create-transaction.dto';
 import { TransactionRepository } from '../transactionRepository';
 import { TransactionUtils } from '../transactionUtils.service';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../../cards/card.utils';
 import { CashbackTransactions } from 'src/cashback/cashbackTransaction.service';
 
 interface TransactionStrategy {

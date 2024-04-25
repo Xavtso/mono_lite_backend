@@ -9,9 +9,9 @@ import {
   breakJarCommand,
   withdrawCommand,
 } from './commands/jarCommands';
-import { TransactionRepository } from 'src/transactions/transactionRepository';
+import { TransactionRepository } from '../transactions/transactionRepository';
 import { JarUtils } from './utils';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../cards/card.utils';
 
 @Injectable()
 export class PiggybankService {

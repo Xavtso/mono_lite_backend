@@ -3,14 +3,14 @@ import { PiggybankService } from './piggybank.service';
 import { PiggybankController } from './piggybank.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { PiggyBank } from './piggybank.model';
-import { User } from 'src/users/user.model';
+import { User } from '../users/user.model';
 import { TransactionsModule } from 'src/transactions/transactions.module';
-import { CardsModule } from 'src/cards/cards.module';
-import { Card } from 'src/cards/card.model';
-import { Transaction } from 'src/transactions/transactions.model';
-import { TransactionRepository } from 'src/transactions/transactionRepository';
+import { CardsModule } from '../cards/cards.module';
+import { Card } from '../cards/card.model';
+import { Transaction } from '../transactions/transactions.model';
+import { TransactionRepository } from '../transactions/transactionRepository';
 import { JarUtils } from './utils';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../cards/card.utils';
 
 @Module({
   providers: [PiggybankService, TransactionRepository, JarUtils, CardUtils],

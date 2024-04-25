@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { createDepositDto } from '../dto/createDeposit.dto';
 import { DepositStrategy } from '.';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../../cards/card.utils';
 import { DepositUtils } from '../utils';
 
 @Injectable()

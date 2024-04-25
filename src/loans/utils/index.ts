@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Loan } from '../loans.model';
 import { createLoanDto } from '../dto/createLoan.dto';
-import { CardUtils } from 'src/cards/card.utils';
-import { TransactionRepository } from 'src/transactions/transactionRepository';
+import { CardUtils } from '../../cards/card.utils';
+import { TransactionRepository } from '../../transactions/transactionRepository';
 
 @Injectable()
 export class LoanUtils {

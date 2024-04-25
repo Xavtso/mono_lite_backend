@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Currency } from './currency.model';
 import { UserCurrency } from './userCurrency.model';
-import { Card } from 'src/cards/card.model';
+import { Card } from '../cards/card.model';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
 import axios from 'axios';
 

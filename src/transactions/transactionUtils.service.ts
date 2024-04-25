@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CardsService } from 'src/cards/cards.service';
+import { CardsService } from '../cards/cards.service';
 import { createTransactionDto } from './dto/create-transaction.dto';
 
 @Injectable()

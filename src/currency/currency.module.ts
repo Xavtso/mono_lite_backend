@@ -4,7 +4,7 @@ import { CurrencyService } from './currency.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Currency } from './currency.model';
 import { UserCurrency } from './userCurrency.model';
-import { Card } from 'src/cards/card.model';
+import { Card } from '../cards/card.model';
 import { Transaction } from 'src/transactions/transactions.model';
 import { CurrencyUtils } from './currency.utils';
 

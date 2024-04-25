@@ -5,7 +5,7 @@ import {
 import { createLoanDto } from '../dto/createLoan.dto';
 import { LoanStrategy } from '.';
 import { LoanUtils } from '../utils';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../../cards/card.utils';
 
 @Injectable()
 export class PayFulllLoanStrategy implements LoanStrategy {
