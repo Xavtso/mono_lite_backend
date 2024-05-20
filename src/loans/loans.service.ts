@@ -40,7 +40,7 @@ export class LoansService {
   }
 
   async showLoanEntities(id: number) {
-    const loan = await this.loanModel.findAll({
+    const loan = await this.loanModel.findOne({
       where: { borrower_id: id },
     });
     return loan;

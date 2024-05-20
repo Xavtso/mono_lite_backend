@@ -13,6 +13,15 @@ export class LoanUtils {
     private transactionRepository: TransactionRepository,
   ) {}
 
+  async checkIfExist(id: number) {
+    const userLoan = await this.loanModel.findOne({
+      where: { borrower_id: id },
+    });
+    if (userLoan) {
+      return false;
+    } else return true;
+  }
+
   async getTargetLoan(id: number) {
     return await this.loanModel.findByPk(id);
   }
