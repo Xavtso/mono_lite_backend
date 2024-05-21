@@ -3,7 +3,7 @@ import { CashBackDto } from './dto/cashBack.dto';
 import { CashbackStorage } from './cashbackStorage.service';
 import { CardUtils } from '../cards/card.utils';
 import { CashBackUtils } from './utils';
-import { TransactionRepository } from 'src/transactions/transactionRepository';
+import { TransactionRepository } from '../transactions/transactionRepository';
 
 @Injectable()
 export class CashbackTransactions {

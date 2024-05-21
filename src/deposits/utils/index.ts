@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Deposit } from '../deposit.model';
 import { CardUtils } from '../../cards/card.utils';
-import { TransactionRepository } from 'src/transactions/transactionRepository';
+import { TransactionRepository } from '../../transactions/transactionRepository';
 
 @Injectable()
 export class DepositUtils {

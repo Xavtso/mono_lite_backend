@@ -8,7 +8,6 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { CardsModule } from './cards/cards.module';
 import { TransactionsModule } from './transactions/transactions.module';
-import * as tedious from 'tedious';
 import { Transaction } from './transactions/transactions.model';
 import { AuthModule } from './auth/auth.module';
 import { PiggybankModule } from './piggybank/piggybank.module';

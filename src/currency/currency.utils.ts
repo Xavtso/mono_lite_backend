@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Currency } from './currency.model';
 import { UserCurrency } from './userCurrency.model';
-import { Card } from '../cards/card.model';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
 import axios from 'axios';
-import { CardUtils } from 'src/cards/card.utils';
+import { CardUtils } from '../cards/card.utils';
 
 @Injectable()
 export class CurrencyUtils {

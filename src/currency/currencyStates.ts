@@ -17,18 +17,18 @@ export class BuyState implements CurrencyState {
       await this.utils.getOperationInfo(dto);
     const amountInUAH = dto.amount * currency.rateSell;
     const isEnough = currCard.card_balance >= amountInUAH;
-    console.log(isEnough, currCard.card_balance,amountInUAH);
+    console.log(isEnough, currCard.card_balance, amountInUAH);
 
     if (isEnough) {
       try {
-        const updatedUserCurrency = await userEntity.update({
+        await userEntity.update({
           usd_balance: userEntity.usd_balance + dto.amount,
         });
         await currCard.update({
           card_balance: currCard.card_balance - amountInUAH,
         });
 
-        return updatedUserCurrency;
+        return 'Currency successfuly bought!';
       } catch (error) {
         console.log(error);
       }
@@ -65,28 +65,28 @@ export class SellState implements CurrencyState {
         currency.currency_id === 840 &&
         userEntity.usd_balance >= dto.amount
       ) {
-        const updatedUserCurrency = await userEntity.update({
+        await userEntity.update({
           usd_balance: userEntity.usd_balance - dto.amount,
         });
         await currCard.update({
           card_balance: currCard.card_balance + amountInUAH,
         });
 
-        return updatedUserCurrency;
+        return 'Currency successfuly selled!';
       }
 
       if (
         currency.currency_id === 978 &&
         userEntity.eur_balance >= dto.amount
       ) {
-        const updatedUserCurrency = await userEntity.update({
+        await userEntity.update({
           eur_balance: userEntity.eur_balance - dto.amount,
         });
         await currCard.update({
           card_balance: currCard.card_balance + amountInUAH,
         });
 
-        return updatedUserCurrency;
+        return 'Currency successfuly selled!';
       }
     } catch (error) {
       console.log(error);
