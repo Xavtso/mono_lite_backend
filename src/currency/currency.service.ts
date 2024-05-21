@@ -4,6 +4,7 @@ import { Currency } from './currency.model';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
 import { CurrencyUtils } from './currency.utils';
 import { CurrencyState, BuyState, SellState } from './currencyStates';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class CurrencyService {
@@ -13,7 +14,7 @@ export class CurrencyService {
     private utils: CurrencyUtils,
   ) {}
 
-  // @Cron(CronExpression.EVERY_DAY_AT_11PM)
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
   async getCurrencyInfo() {
     return this.utils.getCurrencyInfo();
   }

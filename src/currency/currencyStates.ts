@@ -17,6 +17,7 @@ export class BuyState implements CurrencyState {
       await this.utils.getOperationInfo(dto);
     const amountInUAH = dto.amount * currency.rateSell;
     const isEnough = currCard.card_balance >= amountInUAH;
+    console.log(isEnough, currCard.card_balance,amountInUAH);
 
     if (isEnough) {
       try {

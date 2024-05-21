@@ -11,6 +11,10 @@ export class CurrencyController {
     private currencyService: CurrencyService,
     private utils: CurrencyUtils,
   ) {}
+  // @Get()
+  // async test() {
+  //   return await this.utils.getCurrencyInfo()
+  //   }
 
   @Get('/info')
   async sendInfo() {
