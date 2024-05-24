@@ -10,8 +10,8 @@ export class createUserDto {
     readonly email: string;
     @ApiProperty({example: '20041406', description: 'password'})
     readonly password: string;
-
-    readonly id: number;
-
     readonly imageURL: string; 
+
+    
+    readonly id: number;
 }

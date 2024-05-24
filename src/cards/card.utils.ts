@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Card } from './card.model';
+import { User } from '../users/user.model';
 
 @Injectable()
 export class CardUtils {
@@ -44,6 +45,17 @@ export class CardUtils {
     const card = await this.cardModel.findOne({ where: { user_id } });
 
     return card;
+  }
+
+  async prepareCreationData(user: User) {
+    const creationData = {
+      user_id: user.user_id,
+      card_number: await this.generateUniqueCardNumber(),
+      card_CVV: await this.generateCVV(),
+      owner_name: user.first_name,
+      owner_surname: user.second_name,
+    };
+    return creationData;
   }
 
   async addBalanceToCard(card: Card, amount: number) {

@@ -9,23 +9,21 @@ import { createUserDto } from './dto/create-user.dto';
 import { User } from './user.model';
 import * as bcrypt from 'bcryptjs';
 import { Card } from '../cards/card.model';
+import { createGoogleUserDTO } from './dto/createGoogleUserDTO.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User) private userRepository: typeof User) {}
 
-  async createUser(dto: createUserDto) {
-    const user = await this.userRepository.create(dto);
-    return user;
+  async createUser(dto: createUserDto | createGoogleUserDTO) {
+    return await this.userRepository.create(dto);
   }
 
   async getAllUsers() {
-    const users = await this.userRepository.findAll();
-    return users;
+    return await this.userRepository.findAll();
   }
   async getUserById(user_id: number) {
-    const users = await this.userRepository.findByPk(user_id);
-    return users;
+    return await this.userRepository.findByPk(user_id);
   }
   async getUserbyEmail(email: string) {
     const user = await this.userRepository.findOne({

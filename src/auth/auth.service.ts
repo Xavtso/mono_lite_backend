@@ -10,6 +10,7 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../users/user.model';
 import { CardsService } from '../cards/cards.service';
+import { createGoogleUserDTO } from 'src/users/dto/createGoogleUserDTO.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
   async signUp(userDto: createUserDto) {
     console.log(userDto);
     const candidate = await this.userService.getUserbyEmail(userDto.email);
-console.log(candidate);
+    // console.log(candidate);
     if (candidate) {
       throw new HttpException(
         'Зайнято! -- Користувач з таким емейлом уже існує(',
@@ -40,7 +41,7 @@ console.log(candidate);
       ...userDto,
       password: hashPassword,
     });
-    console.log(user);
+    // console.log(user);
     await this.cardService.createCard(user.user_id);
     const token = this.generateToken(user);
     return token;
@@ -81,5 +82,29 @@ console.log(candidate);
         'Йой.. А голову ти дома не забув(ла) -- Пароль не вірний:(',
       );
     }
+  }
+
+  async googleLogin(req) {
+    if (!req.user) {
+      throw new UnauthorizedException('No user from Google');
+    }
+
+    const userDto: createGoogleUserDTO = {
+      email: req.user.email,
+      first_name: req.user.firstName,
+      second_name: req.user.lastName,
+      password: 'google',
+      imageURL: req.user.picture,
+    };
+
+    let user = await this.userService.getUserbyEmail(userDto.email);
+
+    if (!user) {
+      user = await this.userService.createUser(userDto);
+      await this.cardService.createCard(user.user_id);
+    }
+
+    const token = this.generateToken(user);
+    return token;
   }
 }

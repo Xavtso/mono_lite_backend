@@ -81,7 +81,7 @@ export class Card extends Model<Card> {
   })
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   blockReason: string;
 

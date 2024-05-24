@@ -9,10 +9,11 @@ import { TransactionsModule } from 'src/transactions/transactions.module';
 import { CashbackModule } from 'src/cashback/cashback.module';
 import { UsersModule } from 'src/users/users.module';
 import { CardUtils } from './card.utils';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   controllers: [CardsController],
-  providers: [CardsService, CardUtils],
+  providers: [CardsService, CardUtils,UsersService],
   imports: [
     forwardRef(() => AuthModule),
     forwardRef(() => TransactionsModule),

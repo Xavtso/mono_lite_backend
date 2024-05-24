@@ -5,36 +5,31 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Card } from './card.model';
-import { User } from '../users/user.model';
-import { CardBuilder } from './card.builder';
 import { CardUtils } from './card.utils';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class CardsService {
   constructor(
     @InjectModel(Card) private cardModel: typeof Card,
-    @InjectModel(User) private userModel: typeof User,
-    private generator: CardUtils,
+    private userService: UsersService,
+    private cardUtils: CardUtils,
   ) {}
 
   async createCard(user_id: number) {
-    const user = await this.userModel.findByPk(user_id);
+    const user = await this.userService.getUserById(user_id);
     if (!user) {
       throw new NotFoundException('This User does not exist');
     }
 
-    const cardNumber = await this.generator.generateUniqueCardNumber();
-    const codeCVV = await this.generator.generateCVV();
     try {
-      const card = new CardBuilder(user)
-        .setCardNumber(cardNumber)
-        .setCardCVV(codeCVV)
-        .build();
+      const creationData = await this.cardUtils.prepareCreationData(user);
+      const card = await this.cardModel.create({ ...creationData });
       await card.save();
-      await user.update({ card_number: cardNumber });
+      await user.update({ card_number: card.card_number });
       return card;
     } catch (error) {
-      throw new BadRequestException('Some error occured :(');
+      throw new BadRequestException('Some error occured, Card not created :(');
     }
   }
 

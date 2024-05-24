@@ -5,9 +5,10 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CardsModule } from '../cards/cards.module';
 import { TransactionsModule } from 'src/transactions/transactions.module';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
-  providers: [AuthService],
+  providers: [AuthService,GoogleStrategy],
   controllers: [AuthController],
   imports: [
     forwardRef(() => UsersModule),
