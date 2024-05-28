@@ -7,6 +7,9 @@ import { TransactionRepository } from '../transactions/transactionRepository';
 
 @Injectable()
 export class CashbackTransactions {
+  private readonly CASHBACK_FEE_PERCENTAGE = 0.15;
+  private readonly CASHBACK_PERCENTAGE = 0.02;
+
   constructor(
     private transactionRepository: TransactionRepository,
     private cashbackUtils: CashBackUtils,
@@ -20,48 +23,68 @@ export class CashbackTransactions {
       currCard.card_id,
     );
 
-    const isBalanceSufficient =
-      await this.cashbackStorageService.isBalanceSufficient(
-        currCard.card_id,
-        amount,
-      );
-    if (!isBalanceSufficient)
-      throw new BadRequestException('Ти кого хочеш намахати?');
+    await this.ensureSufficientBalance(currCard.card_id, amount);
 
     try {
       await this.cashbackUtils.withdrawCashBackBalance(currStorage, amount);
-
-      const calcAmount = amount - amount * 0.15;
+      const calcAmount = this.calculateNetAmount(amount);
       await this.cardUtils.addBalanceToCard(currCard, calcAmount);
 
-      await this.transactionRepository.createTransactionRecord({
-        sender_card_id: Math.random(),
-        sender_full_name: 'CASH-BACK',
-        receiver_card_id: currCard.card_id,
-        receiver_card_number: currCard.card_number,
-        receiver_full_name: `${currCard.owner_name} ${currCard.owner_surname}`,
-        transaction_amount: amount - amount * 0.15,
-        transaction_description: 'Кешбек🎉💵',
-        transaction_type: 'CASH-BACK',
-      });
+      await this.createTransactionRecord(currCard, calcAmount);
 
-      return 'Transaction Succesfull';
+      return 'Transaction Successful';
     } catch (error) {
       console.log(error);
+      throw new BadRequestException('Transaction Failed');
     }
+  }
+
+  private async ensureSufficientBalance(card_id: number, amount: number) {
+    const isBalanceSufficient =
+      await this.cashbackStorageService.isBalanceSufficient(card_id, amount);
+    if (!isBalanceSufficient) {
+      throw new BadRequestException('Ти кого хочеш намахати?');
+    }
+  }
+
+  private calculateNetAmount(amount: number): number {
+    return amount - amount * this.CASHBACK_FEE_PERCENTAGE;
+  }
+
+  private async createTransactionRecord(currCard, calcAmount: number) {
+    await this.transactionRepository.createTransactionRecord({
+      sender_card_id: Math.random(),
+      sender_full_name: 'CASH-BACK',
+      receiver_card_id: currCard.card_id,
+      receiver_card_number: currCard.card_number,
+      receiver_full_name: `${currCard.owner_name} ${currCard.owner_surname}`,
+      transaction_amount: calcAmount,
+      transaction_description: 'Кешбек🎉💵',
+      transaction_type: 'CASH-BACK',
+    });
   }
 
   async updateCashBackBalance(id: number, amount: number) {
     const currStorage = await this.cashbackUtils.getUserCashBack(id);
-    const calcAmount = amount * 0.02;
+    const calcAmount = amount * this.CASHBACK_PERCENTAGE;
     await this.cashbackUtils.addCashBackBalance(currStorage, calcAmount);
     return 'Balance Updated';
   }
 }
 
-// Фасад CashbackTransactions забезпечує обгортку для виконання складних операцій з кешбеком,
-//  спрощуючи використання цих операцій в інших частинах програми.
-// Він ізолює клієнтів від складності внутрішньої реалізації, яка складається з взаємодії з базою даних та іншими сервісами.
 
-// Також, використання сервісу CashbackStorage допомагає розділити логіку перевірки балансу кешбеку від інших операцій,
-//  що забезпечує принцип єдиного обов'язку та полегшує відладку та тестування.
+
+
+
+
+
+// Extract Method :
+// Виділив логіку перевірки достатнього балансу в метод ensureSufficientBalance.
+// Виділив логіку обчислення суми з вирахуванням комісії в метод calculateNetAmount.
+// Виділив логіку створення запису транзакції в метод createTransactionRecord.
+
+// Replace Magic Number with Symbolic Constant
+// Додав константи CASHBACK_FEE_PERCENTAGE та CASHBACK_PERCENTAGE.
+
+// Error Handling Improvement :
+// Додав обробку помилок для випадків, коли транзакція не вдалася.

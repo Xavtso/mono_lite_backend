@@ -3,8 +3,10 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Currency } from './currency.model';
 import { updateCurrencyBalanceDto } from './dto/updateBalance.dto';
 import { CurrencyUtils } from './currency.utils';
-import { CurrencyState, BuyState, SellState } from './currencyStates';
+import { CurrencyState } from './currencyStates';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { BuyState } from './buyState';
+import { SellState } from './sellState';
 
 @Injectable()
 export class CurrencyService {

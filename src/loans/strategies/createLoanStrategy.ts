@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { createLoanDto } from '../dto/createLoan.dto';
 import { Loan } from '../loans.model';
 import { InjectModel } from '@nestjs/sequelize';
@@ -13,21 +17,52 @@ export class CreateLoanStrategy implements LoanStrategy {
   ) {}
 
   async execute(dto: createLoanDto): Promise<string> {
-    // console.log(dto);
-    // console.log(true);
+    await this.checkIfLoanExists(dto.borrower_id);
+    const loan = await this.createLoan(dto);
+    await this.updateLoanDetails(loan, dto);
+    return 'Loan Created';
+  }
 
+  private async checkIfLoanExists(borrowerId: number): Promise<void> {
+    const isAlreadyExist = await this.loanUtils.checkIfExist(borrowerId);
+    if (isAlreadyExist) {
+      throw new ConflictException('You can have only one loan!');
+    }
+  }
+
+  private async createLoan(dto: createLoanDto): Promise<Loan> {
     try {
-      const loan = await this.loanModel.create(dto);
-      const isAlreadyExist = await this.loanUtils.checkIfExist(dto.borrower_id);
-      console.log(isAlreadyExist);
-      if (isAlreadyExist) {
-        throw new ConflictException('You can have only one loan !');
-      }
+      return await this.loanModel.create(dto);
+    } catch (error) {
+      throw new InternalServerErrorException('Error creating loan');
+    }
+  }
+
+  private async updateLoanDetails(
+    loan: Loan,
+    dto: createLoanDto,
+  ): Promise<void> {
+    try {
       await this.loanUtils.updateMonthlyPayment(loan, dto);
       await this.loanUtils.executeTransaction('receive', dto);
-      return 'Loan Created';
     } catch (error) {
-      throw new Error('Some error occured!');
+      throw new InternalServerErrorException('Error updating loan details');
     }
   }
 }
+
+
+
+
+
+// Extract Method:
+
+// Виділив логіку перевірки існуючої позики в метод checkIfLoanExists.
+// Виділив логіку створення позики в метод createLoan.
+// Виділив логіку оновлення деталей позики в метод updateLoanDetails.
+
+// Improve Exception Handling:
+// Введено більш конкретні виключення ConflictException і InternalServerErrorException з відповідними повідомленнями.
+
+// Optimize Flow:
+// Логіка перевірки існуючої позики виконується до створення нової позики, що робить процес більш ефективним.

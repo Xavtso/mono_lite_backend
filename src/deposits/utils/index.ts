@@ -6,6 +6,8 @@ import { TransactionRepository } from '../../transactions/transactionRepository'
 
 @Injectable()
 export class DepositUtils {
+  private YEAR = 12;
+
   constructor(
     @InjectModel(Deposit) private depositModel: typeof Deposit,
     private cardUtils: CardUtils,
@@ -20,11 +22,15 @@ export class DepositUtils {
   }
   async calcMonthlyPayment(vault: Deposit) {
     const totalAmount = vault.amount;
-    const monthlyInterestRate = vault.interest_rate / 12;
+    const monthlyInterestRate = vault.interest_rate / this.YEAR;
     const monthlyPayment = totalAmount * monthlyInterestRate;
 
+    return await this.updateMonthlyPayment(vault, monthlyPayment);
+  }
+
+  async updateMonthlyPayment(vault: Deposit, amount: number) {
     const updatedVault = await vault.update({
-      monthly_payment: monthlyPayment,
+      monthly_payment: amount,
     });
 
     return updatedVault;

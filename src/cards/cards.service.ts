@@ -6,7 +6,8 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Card } from './card.model';
 import { CardUtils } from './card.utils';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/user.model';
 
 @Injectable()
 export class CardsService {
@@ -23,28 +24,38 @@ export class CardsService {
     }
 
     try {
-      const creationData = await this.cardUtils.prepareCreationData(user);
-      const card = await this.cardModel.create({ ...creationData });
-      await card.save();
-      await user.update({ card_number: card.card_number });
+      const card = await this.createAndSaveCardForUser(user);
+      await this.updateUserWithCardNumber(user, card.card_number);
       return card;
     } catch (error) {
-      throw new BadRequestException('Some error occured, Card not created :(');
+      this.handleCreationError(error);
     }
   }
 
+  private async createAndSaveCardForUser(user: User) {
+    const creationData = await this.cardUtils.prepareCreationData(user);
+    const card = await this.cardModel.create({ ...creationData });
+    await card.save();
+    return card;
+  }
+
+  private async updateUserWithCardNumber(user: User, card_number: string) {
+    await user.update({ card_number: card_number });
+  }
+
+  private handleCreationError(error: any) {
+    throw new BadRequestException('Some error occurred, Card not created :(');
+  }
+
   async getAllCards() {
-    const cards = await this.cardModel.findAll();
-    return cards;
+    return await this.cardModel.findAll();
   }
 
   async getCardById(id: number) {
-    const card = await this.cardModel.findByPk(id);
-    return card;
+    return await this.cardModel.findByPk(id);
   }
-  async getCardByNumber(card_number: string) {
-    const card = await this.cardModel.findOne({ where: { card_number } });
 
-    return card;
+  async getCardByNumber(card_number: string) {
+    return await this.cardModel.findOne({ where: { card_number } });
   }
 }
