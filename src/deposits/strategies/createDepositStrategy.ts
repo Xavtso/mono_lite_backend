@@ -26,7 +26,7 @@ export class CreateDepositStrategy implements DepositStrategy {
       const depositVault = await this.depositModel.create(dto);
       await this.depositUtils.calcMonthlyPayment(depositVault);
       await this.depositUtils.calcEndDate(depositVault);
-      //   this.makeTransaction('deposit', dto.user_id, dto.amount);
+      this.depositUtils.makeTransaction('deposit', dto.user_id, dto.amount);
 
       return 'Deposit Created!';
     } catch (error) {

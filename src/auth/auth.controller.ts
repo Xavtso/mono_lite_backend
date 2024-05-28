@@ -30,8 +30,8 @@ export class AuthController {
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    const token = await this.authService.googleLogin(req);
+    return await this.authService.googleLogin(req);
     // Redirect or send token as response
-    res.redirect(`YOUR_FRONTEND_URL?token=${token.token}`);
+    // res.redirect(`YOUR_FRONTEND_URL?token=${token.token}`);
   }
 }

@@ -4,7 +4,7 @@ import { Loan } from './loans.model';
 import { createLoanDto } from './dto/createLoan.dto';
 import { Cron, CronExpression } from '@nestjs/schedule/dist';
 import { LoanUtils } from './utils';
-import { PayFulllLoanStrategy } from './strategies/payFullStrategy';
+import { PayFullLoanStrategy } from './strategies/payFullStrategy';
 import { PayPartialLoanStrategy } from './strategies/payPartStrategy';
 import { CreateLoanStrategy } from './strategies/createLoanStrategy';
 
@@ -14,16 +14,19 @@ export class LoansService {
     @InjectModel(Loan) private loanModel: typeof Loan,
     private loanUtils: LoanUtils,
     private payPartLoanStrategy: PayPartialLoanStrategy,
-    private payFullLoanStrategy: PayFulllLoanStrategy,
+    private payFullLoanStrategy: PayFullLoanStrategy,
     private createLoanStrategy: CreateLoanStrategy,
   ) {}
+  private YEAR = 12;
 
   async createLoan(dto: createLoanDto) {
     return await this.createLoanStrategy.execute(dto);
   }
+
   async payPartLoan(dto: createLoanDto) {
     return await this.payPartLoanStrategy.execute(dto);
   }
+
   async payFullLoan(dto: createLoanDto) {
     return await this.payFullLoanStrategy.execute(dto);
   }
@@ -33,16 +36,28 @@ export class LoansService {
   async increaseAmountToPay() {
     const loanVaults = await this.loanUtils.getAllLoans();
     loanVaults.map((loan) => {
-      const newAmount =
-        loan.amount_to_pay + (loan.amount_to_pay * loan.interest_rate) / 12;
-      loan.update({ amount_to_pay: newAmount });
+      this.updateLoanAmount(loan);
     });
   }
 
   async showLoanEntities(id: number) {
-    const loan = await this.loanModel.findOne({
+    return await this.loanModel.findOne({
       where: { borrower_id: id },
     });
-    return loan;
+  }
+
+  private async updateLoanAmount(loan: Loan): Promise<void> {
+    const newAmount =
+      loan.amount_to_pay +
+      (loan.amount_to_pay * loan.interest_rate) / this.YEAR;
+    await loan.update({ amount_to_pay: newAmount });
   }
 }
+
+
+
+// Extract Method :
+// Виділив логіку оновлення суми до сплати в окремий метод updateLoanAmount,
+
+// Replace magic numbers:
+// Додав константу YEAR для числа 12
